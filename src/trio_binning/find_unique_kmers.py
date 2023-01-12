@@ -84,6 +84,7 @@ def run_kmc(infile_paths, outfile_path, k, threads=1, kmc_path="kmc", scratch_di
     # run kmc
     kmc_cmd = [
         kmc_path,
+        "-m20",
         "-k{}".format(k),
         "-t{}".format(threads),
         "@" + paths_list_file_path,
@@ -251,14 +252,14 @@ def main():
         )
 
         # get the histogram for this haplotype and analyze it
-        if(args.l == args.u == 0):
+        if(args.count_lower == args.count_upper == 0):
          print("\033[92mComputing and analyzing histogram...\033[0m", file=sys.stderr)
          min_count, max_count = analyze_histogram(
              outfile_path, args.path_to_kmc, args.scratch_dir
          )
         else:
-         min_count = args.l
-         max_count = args.u
+         min_count = format(args.count_lower)
+         max_count = format(args.count_upper)
         
         print(
             "\033[92mUsing counts in range [{},{}].\033[0m".format(
