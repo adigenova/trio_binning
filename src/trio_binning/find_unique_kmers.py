@@ -27,7 +27,9 @@ def parse_args():
         description="Given multiple short-read "
         "libraries, find k-mers that are unique to each library."
     )
-    parser.add_argument("-k", "--kmer-size", type=int, required=True)
+    parser.add_argument("-k", "--kmer-size",   type=int, required=True)
+    parser.add_argument("-l", "--count_lower", type=int, default=0,required=False)
+    parser.add_argument("-u", "--count_upper", type=int, default=0,required=False)
     parser.add_argument(
         "--path-to-kmc",
         default="kmc",
@@ -249,10 +251,15 @@ def main():
         )
 
         # get the histogram for this haplotype and analyze it
-        print("\033[92mComputing and analyzing histogram...\033[0m", file=sys.stderr)
-        min_count, max_count = analyze_histogram(
-            outfile_path, args.path_to_kmc, args.scratch_dir
-        )
+        if(args.l == args.u == 0):
+         print("\033[92mComputing and analyzing histogram...\033[0m", file=sys.stderr)
+         min_count, max_count = analyze_histogram(
+             outfile_path, args.path_to_kmc, args.scratch_dir
+         )
+        else:
+         min_count = args.l
+         max_count = args.u
+        
         print(
             "\033[92mUsing counts in range [{},{}].\033[0m".format(
                 min_count, max_count
