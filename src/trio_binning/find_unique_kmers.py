@@ -85,6 +85,7 @@ def run_kmc(infile_paths, outfile_path, k, threads=1, kmc_path="kmc", scratch_di
     kmc_cmd = [
         kmc_path,
         "-m20",
+        "-sm",
         "-k{}".format(k),
         "-t{}".format(threads),
         "@" + paths_list_file_path,
